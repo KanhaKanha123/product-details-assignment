@@ -41,7 +41,7 @@ export const ProductsList: FC = (): ReactElement => {
                         </TitleTextWrapper>
                     </Header>
                     <ChipsContainer aria-label="blog tags listed here">
-                        {(product.chipOptions || []).map((option: ChipOptionsTypes, index: number) => <Card
+                        Chips: {(product.chipOptions || []).map((option: ChipOptionsTypes, index: number) => <Card
                             key={index}
                             width="auto"
                             height="25px"
