@@ -10,7 +10,7 @@ import {
     shopSiteCode
 } from './mock-filter-data/mock-filter-data'
 
-interface FetchProductDetailsTypes {
+export interface FetchProductDetailsTypes {
     readonly familyRecord: string,
     readonly familyId: string,
     readonly modelCount: string,
@@ -19,7 +19,29 @@ interface FetchProductDetailsTypes {
     readonly categorySubTypeCode: string,
     readonly categorySubTypeEngName: string,
     readonly simplePdYN: string,
-    readonly oldProductYN: string
+    readonly oldProductYN: string,
+    readonly modelList: ModelListTypes[]
+    readonly chipOptions: ChipOptionsTypes[]
+}
+
+export interface ChipOptionsTypes {
+    readonly fmyChipType: string
+    readonly optionList: {
+        readonly multiColorList: string | null,
+        readonly multiColorYN: string | null,
+        readonly optionCode: string | null,
+        readonly optionLocalName: string | null,
+        readonly optionName: string | null
+    }
+}
+export interface ModelListTypes {
+    readonly modelName: string,
+    readonly pviSubtypeName: string,
+    readonly pviTypeName: string,
+    readonly ratings: string,
+    readonly galleryImage: string[],
+    readonly thumbUrl: string,
+    readonly thumbUrlAlt: string
 }
 
 interface FetchProductDetailsReturnTypes {
