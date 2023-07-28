@@ -1,5 +1,5 @@
 import { FC, ReactElement } from "react";
-import { ProductsList } from "../../components/products/product-list";
+import { ProductsList } from "../../components";
 
 /**
  * This heigher level component is responsible render the products details lists on router request.

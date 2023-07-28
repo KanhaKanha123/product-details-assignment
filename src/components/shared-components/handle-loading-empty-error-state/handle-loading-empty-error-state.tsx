@@ -1,11 +1,11 @@
 import { FC, Fragment, ReactElement } from "react";
-import { FetchProductDetailsTypes } from "../../../custom-hooks/use-fetch-product-details";
+import { FetchProductDetailsTypes, ModelListTypes } from "../../../store";
 import { EmptyOrError } from "../styled-components/empty-or-error/empty-or-error";
 import { Loading } from "../styled-components/loding/loading";
 
 interface HandleLoadingEmptyErrorStateTypes {
     children: ReactElement;
-    data: FetchProductDetailsTypes[] | undefined,
+    data?: FetchProductDetailsTypes[] | ModelListTypes | undefined,
     isLoading: boolean,
     error: unknown
 }
@@ -30,7 +30,7 @@ export const HandleLoadingEmptyErrorState: FC<HandleLoadingEmptyErrorStateTypes>
         return <EmptyOrError area-label='error occurred while making api call'>An error has occurred</EmptyOrError>
     }
 
-    if (!data || data.length === 0) {
+    if (!data) {
         return <EmptyOrError color="black" area-label='No data available'>No data available</EmptyOrError>
     }
 

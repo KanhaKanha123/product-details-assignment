@@ -1,4 +1,4 @@
-import { FC, ReactElement } from "react";
+import { FC, Fragment, ReactElement } from "react";
 import { Card, HandleLoadingEmptyErrorState } from "../shared-components";
 import {
     ProductsWrapper,
@@ -8,53 +8,64 @@ import {
     ChipsContainer,
     BodyContainer,
     TitleTextWrapper,
-    ProductImageContainer
+    ProductImageContainer,
+    BodyTextWrapper
 } from "./style";
 
 import { useNavigate } from 'react-router-dom';
-import { ChipOptionsTypes, useFetchProductDetails } from "../../custom-hooks/use-fetch-product-details";
+
+import { useFetchProductDetails } from "../../custom-hooks";
+import { ChipOptionsTypes } from "../../store";
+import { Rating } from "../shared-components/rating/rating";
 
 /**
  * This component is responsible to render all the products in cards with few details.
  * @returns ReactElement
  */
 export const ProductsList: FC = (): ReactElement => {
+    const navigate = useNavigate();
 
     const { productList, isLoading, error } = useFetchProductDetails();
 
-    console.log('productList', productList);
+    //on click navigate to details page
+    const cardClickHandler = (productId: string) => {
+        navigate(`/product/${productId}`);
+    }
 
     return (
         <HandleLoadingEmptyErrorState data={productList} isLoading={isLoading} error={error}>
             <ProductsWrapper>
                 {(productList || []).map(product => <Card
-                    data-testid={`Card_${product.familyId}`}
-                    aria-label="card containing the blog data"
+                    aria-label="card containing the product data"
                     key={product.familyId}
                     width="300px"
                     height="450px"
                     padding="15px"
-                    backgroundcolor="#f4f4f4">
+                    backgroundcolor="#f4f4f4"
+                    cursortype="pointer"
+                    onClick={() => cardClickHandler(product.familyId)}>
                     <Header>
-                        <TitleTextWrapper aria-label="blog title">
+                        <TitleTextWrapper aria-label="product name here">
                             {product.fmyEngName}
                         </TitleTextWrapper>
                     </Header>
-                    <ChipsContainer aria-label="blog tags listed here">
-                        Chips: {(product.chipOptions || []).map((option: ChipOptionsTypes, index: number) => <Card
+                    {product.chipOptions && <ChipsContainer aria-label="product tags listed here">
+                        Chips: {product.chipOptions.map((option: ChipOptionsTypes, index: number) => <Card
                             key={index}
                             width="auto"
-                            height="25px"
+                            height="20px"
                             padding="5px"
-                            backgroundcolor="#8fbaf0">
+                            backgroundcolor="#8fbaf0"
+                        >
                             {option.fmyChipType}
                         </Card>)}
-                    </ChipsContainer>
-                    <BodyContainer aria-label="blog description is here">
+                    </ChipsContainer>}
+                    <BodyContainer aria-label="product thumbnail is here">
                         <ProductImageContainer><Image src={`https:${product.modelList[0].thumbUrl}`} /></ProductImageContainer>
                     </BodyContainer>
-                    <FooterWrapper aria-label="blog reactions count is here">
-                        Available Count: {product.modelCount}
+                    <FooterWrapper aria-label="product availability count and rating count is here">
+                        <BodyTextWrapper>Available: {product.modelCount}</BodyTextWrapper>,
+                        <BodyTextWrapper>Rating: <Rating rating={Number(product.modelList[0].ratings)} />({product.modelList[0].ratings.substring(0, 3)})</BodyTextWrapper>
                     </FooterWrapper>
                 </Card>)}
             </ProductsWrapper>

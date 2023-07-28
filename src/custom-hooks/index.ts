@@ -1,0 +1,1 @@
+export { useFetchProductDetails } from './use-fetch-product-details';
