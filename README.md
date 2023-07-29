@@ -33,6 +33,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 6. Styled components are in use they are more redable and maintainable.
 7. area-labels and symentics tags added for accessibility.
 8. Index.ts files added for each folder to make import shorter.
+9. App is responsive.
 
 ## Folder strucutre
 1. api--> it has the baseUrl of api so we don't have to write in other places when we make request.
