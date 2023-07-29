@@ -7,7 +7,7 @@ import { ProductDetails } from "../../components";
  */
 export const ProductDetailsPage: FC = (): ReactElement => {
 
-    return <section area-label='product details is here'>
+    return <main area-label='product details is here'>
         <ProductDetails />
-    </section>
+    </main>
 };
