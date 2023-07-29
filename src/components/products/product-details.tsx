@@ -55,27 +55,39 @@ export const ProductDetails: FC = (): ReactElement => {
     //Selected code from the models code tabs
     const [selectedCode, setSelectedCode] = useState<string | undefined>(undefined);
 
+    const [isLoading, setIsloading] = useState<boolean>(false);
+
+    const [error, setError] = useState<any>(null);
+
     useEffect(() => {
-        //get the data of selected product
-        const pData = filterProductListData(productsList, productId);
+        try {
+            setIsloading(true);
 
-        //get all the model codes for selected product
-        const mCodes = getAllModels(pData);
+            //get the data of selected product
+            const pData = filterProductListData(productsList, productId);
 
-        setModelCodes(mCodes);
+            //get all the model codes for selected product
+            const mCodes = getAllModels(pData);
 
-        if (mCodes) {
-            //set default code only on first time page load
-            if (!selectedCode) {
-                setSelectedCode(mCodes[0]);
+            setModelCodes(mCodes);
+
+            if (mCodes) {
+                //set default code only on first time page load
+                if (!selectedCode) {
+                    setSelectedCode(mCodes[0]);
+                }
             }
+
+            //Set product data
+            setProductData(pData);
+
+            //Set single model data
+            getModelDetailsbyCode(selectedCode);
+
+            setIsloading(false);
+        } catch (err) {
+            setError(err);
         }
-
-        //Set product data
-        setProductData(pData);
-
-        //Set single model data
-        getModelDetailsbyCode(selectedCode);
     }, [selectedCode, productModelData]);
 
     //click hander to handle models tab click
@@ -95,7 +107,7 @@ export const ProductDetails: FC = (): ReactElement => {
         }
     };
 
-    return (productModelData ? <HandleLoadingEmptyErrorState data={productModelData} isLoading={false} error={false}>
+    return (productModelData ? <HandleLoadingEmptyErrorState data={productModelData} isLoading={isLoading} error={error}>
         <ProductDetailsWrapper aria-label="container with product details">
             <Card
                 width="1000px"
@@ -136,7 +148,7 @@ export const ProductDetails: FC = (): ReactElement => {
                 flexwrap='unset'
                 alignitems="flex-start">
                 <ModelsWraper>
-                    Models
+                    Select Models
                     {modelCodes && modelCodes?.map(code => <Card
                         key={code}
                         width="150px"

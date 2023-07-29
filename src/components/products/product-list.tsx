@@ -1,4 +1,4 @@
-import { FC, Fragment, ReactElement } from "react";
+import { FC, ReactElement } from "react";
 import { Card, HandleLoadingEmptyErrorState } from "../shared-components";
 import {
     ProductsWrapper,
@@ -11,9 +11,7 @@ import {
     ProductImageContainer,
     BodyTextWrapper
 } from "./style";
-
 import { useNavigate } from 'react-router-dom';
-
 import { useFetchProductDetails } from "../../custom-hooks";
 import { ChipOptionsTypes } from "../../store";
 import { Rating } from "../shared-components/rating/rating";
