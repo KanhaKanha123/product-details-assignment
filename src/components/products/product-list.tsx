@@ -51,7 +51,7 @@ export const ProductsList: FC = (): ReactElement => {
                         Chips: {product.chipOptions.map((option: ChipOptionsTypes, index: number) => <Card
                             key={index}
                             width="auto"
-                            height="20px"
+                            height="auto"
                             padding="5px"
                             backgroundcolor="#8fbaf0"
                         >

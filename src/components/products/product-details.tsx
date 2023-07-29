@@ -132,7 +132,7 @@ export const ProductDetails: FC = (): ReactElement => {
                     <Text>Chip Types:</Text> {productData?.chipOptions.map((option: ChipOptionsTypes, index: number) => <Card
                         key={index}
                         width="auto"
-                        height="20px"
+                        height="auto"
                         padding="5px"
                         backgroundcolor="#8fbaf0"
                     >
@@ -145,13 +145,13 @@ export const ProductDetails: FC = (): ReactElement => {
                 width="1000px"
                 height="auto"
                 flexflow="row"
-                flexwrap='unset'
+                flexwrap='wrap'
                 alignitems="flex-start">
                 <ModelsWraper>
                     Select Models
                     {modelCodes && modelCodes?.map(code => <Card
                         key={code}
-                        width="150px"
+                        width="auto"
                         height="25px"
                         padding="5px"
                         cursortype="pointer"

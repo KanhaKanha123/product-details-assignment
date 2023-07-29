@@ -38,6 +38,7 @@ width:100%;
 display: flex;
 align-items: start;
 flex-flow: row;
+flex-wrap: wrap;
 gap:15px;
 `;
 
@@ -94,11 +95,14 @@ background-color : #f4f4f4;
 padding : 10px;
 border-radius : 10px;
 height: 650px;
+width: 100%;
+@media (min-width: 855px) {
+    width: 25%;
+  }
 `;
 
 export const ImageGalleryWrapper = styled.div`
 display:flex;
-width:750px;
 height:670px;
 border-radius:10px;
 background-color : #f4f4f4;
