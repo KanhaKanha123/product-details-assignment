@@ -49,14 +49,13 @@ export const ProductDetails: FC = (): ReactElement => {
     //One model state data by model code
     const [productModelData, setProductModelData] = useState<ModelListTypes>();
 
-    //All available state modes code for specific product
-    const [modelCodes, setModelCodes] = useState<string[]>();
-
     //Selected code from the models code tabs
     const [selectedCode, setSelectedCode] = useState<string | undefined>(undefined);
 
+    //state to set loading
     const [isLoading, setIsloading] = useState<boolean>(false);
 
+    //state to set error
     const [error, setError] = useState<any>(null);
 
     useEffect(() => {
@@ -65,9 +64,9 @@ export const ProductDetails: FC = (): ReactElement => {
             setIsloading(true);
 
             //Get model details by model code
-            const getModelDetailsbyCode = (modelCode: string | undefined): void => {
+            const getModelDetailsbyCode = (pData: FetchProductDetailsTypes, modelCode: string | undefined): void => {
 
-                const modelData = productData?.modelList.filter(model => model.modelCode === modelCode)[0];
+                const modelData = pData?.modelList.filter(model => model.modelCode === modelCode)[0];
 
                 if (modelData) {
                     setProductModelData(modelData);
@@ -77,29 +76,26 @@ export const ProductDetails: FC = (): ReactElement => {
             //get the data of selected product
             const pData = filterProductListData(productsList, productId);
 
-            //get all the model codes for selected product
-            const mCodes = getAllModels(pData);
-
-            setModelCodes(mCodes);
-
-            if (mCodes) {
+            if (pData.modelList[0].modelCode) {
                 //set default code only on first time page load
                 if (!selectedCode) {
-                    setSelectedCode(mCodes[0]);
+                    setSelectedCode(pData.modelList[0].modelCode);
                 }
             }
 
             //Set product data
             setProductData(pData);
 
-            //Set single model data
-            getModelDetailsbyCode(selectedCode);
+            if (productData) {
+                //Set single model data
+                getModelDetailsbyCode(productData, selectedCode);
+            }
 
             setIsloading(false);
         } catch (err) {
             setError(err);
         }
-    }, [selectedCode, productModelData, productId, productsList, productData?.modelList]);
+    }, [selectedCode, productModelData, productId, productsList, productData, productData?.modelList]);
 
     //click hander to handle models tab click
     const modelClickHandler = (code: string): void => {
@@ -148,7 +144,7 @@ export const ProductDetails: FC = (): ReactElement => {
                 alignitems="flex-start">
                 <ModelsWraper>
                     Select Models
-                    {modelCodes && modelCodes?.map(code => <Card
+                    {getAllModels(productData)?.map(code => <Card
                         key={code}
                         width="auto"
                         height="25px"
