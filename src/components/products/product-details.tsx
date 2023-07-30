@@ -61,7 +61,18 @@ export const ProductDetails: FC = (): ReactElement => {
 
     useEffect(() => {
         try {
+
             setIsloading(true);
+
+            //Get model details by model code
+            const getModelDetailsbyCode = (modelCode: string | undefined): void => {
+
+                const modelData = productData?.modelList.filter(model => model.modelCode === modelCode)[0];
+
+                if (modelData) {
+                    setProductModelData(modelData);
+                }
+            };
 
             //get the data of selected product
             const pData = filterProductListData(productsList, productId);
@@ -88,24 +99,12 @@ export const ProductDetails: FC = (): ReactElement => {
         } catch (err) {
             setError(err);
         }
-    }, [selectedCode, productModelData]);
+    }, [selectedCode, productModelData, productId, productsList, productData?.modelList]);
 
     //click hander to handle models tab click
     const modelClickHandler = (code: string): void => {
         setSelectedCode(code);
-
-        getModelDetailsbyCode(code);
     }
-
-    //Get model details by model code
-    const getModelDetailsbyCode = (modelCode: string | undefined): void => {
-
-        const modelData = productData?.modelList.filter(model => model.modelCode === modelCode)[0];
-
-        if (modelData) {
-            setProductModelData(modelData);
-        }
-    };
 
     return (productModelData ? <HandleLoadingEmptyErrorState data={productModelData} isLoading={isLoading} error={error}>
         <ProductDetailsWrapper aria-label="container with product details">
@@ -166,4 +165,4 @@ export const ProductDetails: FC = (): ReactElement => {
             </Card>
         </ProductDetailsWrapper>
     </HandleLoadingEmptyErrorState> : <EmptyOrError color="black">No data available</EmptyOrError>)
-}
+};
